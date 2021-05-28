@@ -1,24 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  Switch,
+} from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import axios from "axios";
+
+import WatchList from "./components/WatchList";
+import NotFound from "./components/NotFound";
+import Watched from "./components/Watched";
+import Header from "./components/Header";
+import Add from "./components/Add";
+
+import "react-toastify/dist/ReactToastify.css";
+import "./App.css";
+
+axios.defaults.baseURL = "https://api.themoviedb.org/3/search";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Header />
+      <ToastContainer />
+      <Switch>
+        <Route exact path="/" component={WatchList} />
+        <Route path="/watched" component={Watched} />
+        <Route path="/add" component={Add} />
+        <Redirect from="/watchlist" to="/" />
+        <Route path="*" component={NotFound} />
+      </Switch>
+    </Router>
   );
 }
 
